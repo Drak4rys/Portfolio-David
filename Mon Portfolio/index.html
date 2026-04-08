@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Dessins — Accueil</title>
+  <style>
+    :root {
+      --bg: #08090f;
+      --bg-2: #11131d;
+      --text: #f5f1e8;
+      --muted: rgba(245, 241, 232, 0.72);
+      --line: rgba(255,255,255,0.12);
+      --line-soft: rgba(255,255,255,0.08);
+      --glass: rgba(255,255,255,0.05);
+      --accent: #e8d6b5;
+      --accent-2: #c7b089;
+      --shadow: 0 30px 80px rgba(0,0,0,0.45);
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Georgia", "Times New Roman", serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.06), transparent 18%),
+        radial-gradient(circle at 20% 80%, rgba(215,190,145,0.08), transparent 24%),
+        linear-gradient(180deg, #090a10 0%, #0b0c12 45%, #12131b 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.06), transparent 18%), #06060a;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loading-text {
+      letter-spacing: 0.85em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.35; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    .site-header {
+      position: absolute;
+      inset: 0 0 auto 0;
+      z-index: 10;
+      padding-top: 22px;
+    }
+
+    .header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 18px;
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      background: rgba(8, 9, 15, 0.52);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.24);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+      font-size: 1rem;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-name {
+      display: block;
+      font-size: 0.95rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .brand-tagline {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .menu a {
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-size: 0.84rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: 0.25s ease;
+    }
+
+    .menu a:hover {
+      color: var(--text);
+      border-color: var(--line-soft);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .socials a {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
+      transition: 0.25s ease;
+    }
+
+    .socials a:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.09);
+    }
+
+    .socials svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 130px 0 70px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(255, 243, 214, 0.22), transparent 12%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.07), transparent 22%),
+        radial-gradient(circle at 50% 65%, rgba(255,212,152,0.06), transparent 28%);
+      z-index: -2;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.44));
+      z-index: -1;
+    }
+
+    .back-art {
+      position: absolute;
+      inset: 0;
+      background-image: url('fond.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.18;
+      transform: scale(1.03);
+      filter: saturate(0.8) contrast(1.02) brightness(0.85);
+    }
+
+    .hero-content {
+      width: min(100%, 1100px);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line-soft);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      margin-bottom: 24px;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 16px rgba(232,214,181,0.8);
+    }
+
+    .site-title {
+      margin: 0;
+      font-size: clamp(3rem, 9vw, 6.4rem);
+      font-weight: 500;
+      line-height: 0.92;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .site-subtitle {
+      margin: 18px auto 36px;
+      max-width: 740px;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.95;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .newsletter {
+      width: min(100%, 860px);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 22px;
+      background: rgba(7,7,11,0.42);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      text-align: left;
+    }
+
+    .featured-art {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .featured-image {
+      min-height: 380px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .featured-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      padding: 10px 10px 10px 4px;
+    }
+
+    .newsletter small {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--accent);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+    }
+
+    .newsletter h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.4rem, 4vw, 2rem);
+      font-weight: 500;
+      text-transform: lowercase;
+    }
+
+    .newsletter p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .latest-tag {
+      display: inline-flex;
+      align-self: flex-start;
+      margin-top: 6px;
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h3 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .section-title p {
+      margin: 0 auto;
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .year-block {
+      margin-top: 54px;
+    }
+
+    .year-block:first-of-type {
+      margin-top: 0;
+    }
+
+    .year-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .year-header h3 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .year-line {
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+    }
+
+    .year-months {
+      display: grid;
+      gap: 28px;
+    }
+
+    .gallery-month {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      background: rgba(255,255,255,0.03);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    .month-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.25s ease;
+    }
+
+    .month-toggle:hover {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .month-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .month-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03));
+      color: var(--accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .month-header h4 {
+      margin: 0 0 6px;
+      font-size: clamp(1.15rem, 3vw, 1.7rem);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .month-subtitle {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .month-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .month-chevron {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .gallery-month.open .month-chevron {
+      transform: rotate(180deg);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .month-panel {
+      display: none;
+      padding: 0 24px 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .gallery-month.open .month-panel {
+      display: block;
+      animation: fadeSlide 0.28s ease;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 440px;
+      border-radius: 26px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card .overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 22px;
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.78));
+    }
+
+    .card h4 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+      font-weight: 500;
+    }
+
+    .card p {
+      margin: 0;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.7;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 34px;
+    }
+
+    .pagination button {
+      min-width: 46px;
+      height: 46px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .pagination button:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.10);
+    }
+
+    .pagination button.active {
+      background: var(--accent);
+      color: #111;
+      border-color: transparent;
+      font-weight: 700;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .pagination-dots {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 32px;
+      height: 46px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+    }
+
+    .about-box {
+      width: min(920px, 100%);
+      margin: 0 auto;
+      padding: 38px;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .about-box p {
+      margin: 0;
+      line-height: 1.95;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(3, 3, 6, 0.92);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+    }
+
+    .lightbox-content {
+      position: relative;
+      width: min(1100px, 100%);
+      max-height: min(92vh, 920px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 18px;
+      z-index: 1;
+    }
+
+    .lightbox-figure,
+    .lightbox-panel {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .lightbox-figure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+    }
+
+    .lightbox-figure img {
+      width: 100%;
+      height: 100%;
+      max-height: 92vh;
+      object-fit: contain;
+      display: block;
+      background: #050507;
+    }
+
+    .lightbox-panel {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .lightbox-panel small {
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+    }
+
+    .lightbox-panel h4 {
+      margin: 0;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .lightbox-panel p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .lightbox-meta {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: 0.25s ease;
+      z-index: 2;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-nav:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+
+    .lightbox-close {
+      top: 14px;
+      right: 14px;
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      font-size: 1.1rem;
+    }
+
+    .lightbox-nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      font-size: 1.15rem;
+    }
+
+    .lightbox-nav:hover {
+      transform: translateY(calc(-50% - 2px));
+    }
+
+    .lightbox-prev { left: 18px; }
+    .lightbox-next { right: 18px; }
+
+    footer {
+      padding: 30px 0 50px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 980px) {
+      .header-bar {
+        border-radius: 28px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand,
+      .socials,
+      .menu {
+        justify-content: center;
+      }
+
+      .featured-art,
+      .lightbox-content,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-copy {
+        text-align: center;
+        padding: 4px;
+      }
+
+      .latest-tag {
+        align-self: center;
+      }
+
+      .lightbox-figure {
+        min-height: 52vh;
+      }
+
+      .lightbox-panel {
+        padding: 22px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(calc(100% - 24px), var(--max));
+      }
+
+      .hero {
+        padding-top: 176px;
+      }
+
+      .site-title {
+        letter-spacing: 0.1em;
+      }
+
+      .site-subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 0.04em;
+      }
+
+      .menu {
+        gap: 8px;
+      }
+
+      .menu a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .year-header {
+        gap: 10px;
+      }
+
+      .year-header h3 {
+        font-size: 1.2rem;
+        letter-spacing: 0.1em;
+      }
+
+      .month-toggle {
+        padding: 18px;
+      }
+
+      .month-panel {
+        padding: 0 18px 18px;
+      }
+
+      .month-left {
+        align-items: flex-start;
+      }
+
+      .month-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .month-count {
+        white-space: normal;
+      }
+
+      .month-chevron {
+        width: 38px;
+        height: 38px;
+      }
+
+      .month-badge {
+        width: 46px;
+        height: 46px;
+        border-radius: 16px;
+      }
+
+      .card {
+        min-height: 360px;
+      }
+
+      .pagination button {
+        min-width: 42px;
+        height: 42px;
+      }
+
+      .lightbox {
+        padding: 14px;
+      }
+
+      .lightbox-figure,
+      .lightbox-panel {
+        border-radius: 22px;
+      }
+
+      .lightbox-close {
+        top: 10px;
+        right: 10px;
+        width: 44px;
+        height: 44px;
+      }
+
+      .lightbox-nav {
+        width: 44px;
+        height: 44px;
+      }
+
+      .lightbox-prev { left: 10px; }
+      .lightbox-next { right: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-text">Loading .</div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="header-bar">
+        <a class="brand" href="#home" aria-label="Retour à l'accueil">
+          <div class="logo"><img src="profil.png" alt="Portrait Lalande David" /></div>
+          <div class="brand-copy">
+            <span class="brand-name">David Lalande </span>
+            <span class="brand-tagline">illustrations</span>
+          </div>
+        </a>
+
+        <nav class="menu" aria-label="Navigation principale">
+          <a href="#galerie">Galerie</a>
+          <a href="#apropos">À propos</a>
+          <a href="#contact">Dernier dessin</a>
+        </nav>
+
+        <div class="socials">
+          <a href="https://www.instagram.com/david_lalande/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.8A3.95 3.95 0 0 0 3.8 7.75v8.5a3.95 3.95 0 0 0 3.95 3.95h8.5a3.95 3.95 0 0 0 3.95-3.95v-8.5a3.95 3.95 0 0 0-3.95-3.95h-8.5Zm8.95 1.35a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 6.5A5.5 5.5 0 1 1 6.5 12 5.51 5.51 0 0 1 12 6.5Zm0 1.8A3.7 3.7 0 1 0 15.7 12 3.7 3.7 0 0 0 12 8.3Z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="back-art"></div>
+
+    <div class="container hero-content">
+      <span class="hero-kicker">illustrations "traditionnelles et numériques"</span>
+      <h1 class="site-title">Ton univers<br />en images</h1>
+      <p class="site-subtitle">Voici mon Portfolio avec une galerie chronologique pour suivre mon évolution artistique.</p>
+
+      <div class="newsletter" id="contact">
+        <div class="featured-art">
+          <div class="featured-image">
+            <img id="latestArtworkImage" src="" alt="Dernier dessin ajouté" />
+          </div>
+          <div class="featured-copy">
+            <small>dernier dessin</small>
+            <h2 id="latestArtworkTitle">la dernière œuvre mise en ligne</h2>
+            <p id="latestArtworkDescription">Cette zone affiche automatiquement ton dessin le plus récent.</p>
+            <span class="latest-tag" id="latestArtworkDate">mis en avant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="galerie">
+    <div class="container">
+      <div class="section-title">
+        <h3>Galerie</h3>
+        <p>Retrouve tes dessins classés par année puis par mois. Chaque bloc s’ouvre au clic pour garder une lecture plus propre et plus agréable.</p>
+      </div>
+
+      <div id="galleryGrid"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </section>
+
+  <section class="section" id="apropos">
+    <div class="container">
+      <div class="section-title">
+        <h3>À propos</h3>
+      </div>
+
+      <div class="about-box">
+        <p>
+          Je vous fais part de mes évolutions, sketches, personnages et compositions. Grâce à cette galerie, je peux garder une trace claire de mon évolution, tout en présentant mon travail dans une ambiance immersive, élégante et personnelle.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Fermer">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Image précédente">←</button>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Image suivante">→</button>
+    <div class="lightbox-content">
+      <figure class="lightbox-figure">
+        <img id="lightboxImage" src="" alt="" />
+      </figure>
+      <aside class="lightbox-panel">
+        <small>illustration</small>
+        <h4 id="lightboxTitle">Sans titre</h4>
+        <p id="lightboxDescription"></p>
+        <span class="lightbox-meta" id="lightboxDate">—</span>
+      </aside>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">© 2026 David Lalande Portfolio — Instagram</div>
+  </footer>
+
+  <script>
+    const galleryGrid = document.getElementById('galleryGrid');
+    const pagination = document.getElementById('pagination');
+    const latestArtworkImage = document.getElementById('latestArtworkImage');
+    const latestArtworkTitle = document.getElementById('latestArtworkTitle');
+    const latestArtworkDescription = document.getElementById('latestArtworkDescription');
+    const latestArtworkDate = document.getElementById('latestArtworkDate');
+
+    const yearsPerPage = 3;
+    let allArtworks = [];
+    let currentPage = 1;
+    let currentLightboxIndex = 0;
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxDescription = document.getElementById('lightboxDescription');
+    const lightboxDate = document.getElementById('lightboxDate');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const lightboxPrev = document.getElementById('lightboxPrev');
+    const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxBackdrop = document.getElementById('lightboxBackdrop');
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      if (Number.isNaN(date.getTime())) return dateString;
+      return new Intl.DateTimeFormat('fr-FR', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      }).format(date);
+    }
+
+    function sortArtworksByDate(items) {
+      return [...items].sort((a, b) => {
+        const dateCompare = new Date(a.date) - new Date(b.date);
+        if (dateCompare !== 0) return dateCompare;
+
+        const orderA = Number(a.order || 0);
+        const orderB = Number(b.order || 0);
+        return orderA - orderB;
+      });
+    }
+
+    function renderLatestArtwork(items) {
+      const latest = items[items.length - 1];
+      if (!latest) return;
+
+      latestArtworkImage.src = latest.image;
+      latestArtworkImage.alt = latest.title || 'Dernier dessin ajouté';
+      latestArtworkTitle.textContent = latest.title || 'Dernier dessin';
+      latestArtworkDescription.textContent = latest.description || 'Nouvelle illustration ajoutée à la galerie.';
+      latestArtworkDate.textContent = latest.date ? `ajouté le ${formatDate(latest.date)}` : 'mis en avant';
+    }
+
+    function groupArtworksByYearAndMonth(items) {
+      const monthFormatter = new Intl.DateTimeFormat('fr-FR', {
+        month: 'long',
+        year: 'numeric'
+      });
+
+      const yearGroups = [];
+      const yearMap = new Map();
+
+      items.forEach((artwork, index) => {
+        const date = new Date(artwork.date);
+        const yearKey = Number.isNaN(date.getTime()) ? 'Date inconnue' : String(date.getFullYear());
+        const monthKey = Number.isNaN(date.getTime())
+          ? 'Date inconnue'
+          : `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+        if (!yearMap.has(yearKey)) {
+          const yearGroup = {
+            key: yearKey,
+            label: yearKey,
+            months: [],
+            monthMap: new Map()
+          };
+          yearMap.set(yearKey, yearGroup);
+          yearGroups.push(yearGroup);
+        }
+
+        const currentYear = yearMap.get(yearKey);
+
+        if (!currentYear.monthMap.has(monthKey)) {
+          const monthGroup = {
+            key: monthKey,
+            label: Number.isNaN(date.getTime()) ? 'Date inconnue' : monthFormatter.format(date),
+            artworks: []
+          };
+          currentYear.monthMap.set(monthKey, monthGroup);
+          currentYear.months.push(monthGroup);
+        }
+
+        currentYear.monthMap.get(monthKey).artworks.push({ ...artwork, globalIndex: index });
+      });
+
+      return yearGroups.map((yearGroup) => ({
+        key: yearGroup.key,
+        label: yearGroup.label,
+        months: yearGroup.months
+      }));
+    }
+
+    function renderGallery(yearGroups) {
+      galleryGrid.innerHTML = yearGroups.map((yearGroup) => `
+        <section class="year-block">
+          <div class="year-header">
+            <span class="year-line"></span>
+            <h3>${yearGroup.label}</h3>
+            <span class="year-line"></span>
+          </div>
+
+          <div class="year-months">
+            ${yearGroup.months.map((group) => {
+              const monthDate = new Date(`${group.key}-01`);
+              const badge = Number.isNaN(monthDate.getTime())
+                ? '—'
+                : new Intl.DateTimeFormat('fr-FR', { month: 'short' }).format(monthDate).slice(0, 3);
+
+              return `
+                <section class="gallery-month" data-month="${group.key}">
+                  <button class="month-toggle" type="button" aria-expanded="false">
+                    <div class="month-left">
+                      <div class="month-badge">${badge}</div>
+                      <div class="month-header">
+                        <div>
+                          <h4>${group.label}</h4>
+                          <div class="month-subtitle">Clique pour afficher ou masquer les dessins de ce mois.</div>
+                        </div>
+                        <span class="month-count">${group.artworks.length} dessin${group.artworks.length > 1 ? 's' : ''}</span>
+                      </div>
+                    </div>
+                    <div class="month-chevron">⌄</div>
+                  </button>
+                  <div class="month-panel">
+                    <div class="gallery-grid">
+                      ${group.artworks.map((artwork) => `
+                        <article class="card" data-index="${artwork.globalIndex}">
+                          <img src="${artwork.image}" alt="${artwork.title || 'Illustration'}" loading="lazy" />
+                          <div class="overlay">
+                            <h4>${artwork.title || 'Sans titre'}</h4>
+                            <p>${artwork.description || ''}</p>
+                          </div>
+                        </article>
+                      `).join('')}
+                    </div>
+                  </div>
+                </section>
+              `;
+            }).join('')}
+          </div>
+        </section>
+      `).join('');
+
+      galleryGrid.querySelectorAll('.card').forEach((card) => {
+        card.addEventListener('click', () => {
+          openLightbox(Number(card.dataset.index));
+        });
+      });
+
+      galleryGrid.querySelectorAll('.month-toggle').forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+          const monthBlock = toggle.closest('.gallery-month');
+          const isOpen = monthBlock.classList.contains('open');
+
+          if (isOpen) {
+            monthBlock.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            return;
+          }
+
+          const yearContainer = toggle.closest('.year-months');
+          yearContainer.querySelectorAll('.gallery-month').forEach((block) => {
+            block.classList.remove('open');
+            const button = block.querySelector('.month-toggle');
+            if (button) button.setAttribute('aria-expanded', 'false');
+          });
+
+          monthBlock.classList.add('open');
+          toggle.setAttribute('aria-expanded', 'true');
+        });
+      });
+    }
+
+    function getPaginatedArtworks(items, page) {
+      const yearGroups = groupArtworksByYearAndMonth(items);
+      const start = (page - 1) * yearsPerPage;
+      const end = start + yearsPerPage;
+      return yearGroups.slice(start, end);
+    }
+
+    function getVisiblePages(totalPages, current) {
+      const pages = [];
+
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i += 1) pages.push(i);
+        return pages;
+      }
+
+      pages.push(1);
+      if (current > 3) pages.push('...');
+
+      const start = Math.max(2, current - 1);
+      const end = Math.min(totalPages - 1, current + 1);
+
+      for (let i = start; i <= end; i += 1) pages.push(i);
+
+      if (current < totalPages - 2) pages.push('...');
+      pages.push(totalPages);
+      return pages;
+    }
+
+    function renderPagination(items) {
+      const totalPages = Math.ceil(groupArtworksByYearAndMonth(items).length / yearsPerPage);
+
+      if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+      }
+
+      const visiblePages = getVisiblePages(totalPages, currentPage);
+      let buttons = `<button ${currentPage === 1 ? 'disabled' : ''} data-page="prev">←</button>`;
+
+      visiblePages.forEach((page) => {
+        if (page === '...') {
+          buttons += `<span class="pagination-dots">...</span>`;
+          return;
+        }
+
+        buttons += `<button class="${page === currentPage ? 'active' : ''}" data-page="${page}">${page}</button>`;
+      });
+
+      buttons += `<button ${currentPage === totalPages ? 'disabled' : ''} data-page="next">→</button>`;
+      pagination.innerHTML = buttons;
+
+      pagination.querySelectorAll('button[data-page]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const value = button.dataset.page;
+          const totalPagesCount = Math.ceil(groupArtworksByYearAndMonth(allArtworks).length / yearsPerPage);
+
+          if (value === 'prev' && currentPage > 1) {
+            currentPage -= 1;
+          } else if (value === 'next' && currentPage < totalPagesCount) {
+            currentPage += 1;
+          } else if (!Number.isNaN(Number(value))) {
+            currentPage = Number(value);
+          }
+
+          updateGalleryPage();
+          document.getElementById('galerie').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    function updateGalleryPage() {
+      const pageItems = getPaginatedArtworks(allArtworks, currentPage);
+      renderGallery(pageItems);
+      renderPagination(allArtworks);
+    }
+
+    function openLightbox(index) {
+      const artwork = allArtworks[index];
+      if (!artwork) return;
+
+      currentLightboxIndex = index;
+      lightboxImage.src = artwork.image;
+      lightboxImage.alt = artwork.title || 'Illustration';
+      lightboxTitle.textContent = artwork.title || 'Sans titre';
+      lightboxDescription.textContent = artwork.description || 'Illustration du portfolio.';
+      lightboxDate.textContent = artwork.date ? `ajouté le ${formatDate(artwork.date)}` : 'portfolio';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function navigateLightbox(direction) {
+      if (!allArtworks.length) return;
+      currentLightboxIndex = (currentLightboxIndex + direction + allArtworks.length) % allArtworks.length;
+      openLightbox(currentLightboxIndex);
+    }
+
+    async function loadGallery() {
+      try {
+        const response = await fetch('./gallery.json');
+        if (!response.ok) {
+          throw new Error('Impossible de charger gallery.json');
+        }
+
+        const artworks = await response.json();
+        const validArtworks = artworks.filter((item) => item.image);
+        const sortedArtworks = sortArtworksByDate(validArtworks);
+
+        allArtworks = sortedArtworks;
+        currentPage = 1;
+
+        renderLatestArtwork(sortedArtworks);
+        updateGalleryPage();
+      } catch (error) {
+        console.error(error);
+        latestArtworkTitle.textContent = 'gallery.json introuvable';
+        latestArtworkDescription.textContent = 'Ajoute le fichier gallery.json à la racine du site pour afficher automatiquement tes dessins.';
+        latestArtworkDate.textContent = 'configuration requise';
+        galleryGrid.innerHTML = '';
+        pagination.innerHTML = '';
+      }
+    }
+
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxBackdrop.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+    lightboxNext.addEventListener('click', () => navigateLightbox(1));
+
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'Escape') closeLightbox();
+      if (event.key === 'ArrowLeft') navigateLightbox(-1);
+      if (event.key === 'ArrowRight') navigateLightbox(1);
+    });
+
+    loadGallery();
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
