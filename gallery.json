@@ -1785,11 +1785,18 @@
     "order": 0
   },
   {
-    "title": "2025-10-23",
-    "description": "Illustration du 2025-10-23.",
-    "image": "images/2025-10-23.png",
+    "title": "2025-10-23 — dessin 3",
+    "description": "Illustration du 2025-10-23, dessin 3.",
+    "image": "images/2025-10-23d3.jpg",
     "date": "2025-10-23",
-    "order": 0
+    "order": 3
+  },
+  {
+    "title": "2025-10-23 — dessin 4",
+    "description": "Illustration du 2025-10-23, dessin 4.",
+    "image": "images/2025-10-23d4.png",
+    "date": "2025-10-23",
+    "order": 4
   },
   {
     "title": "2025-10-25",
@@ -1804,13 +1811,6 @@
     "image": "images/2025-10-25d2.png",
     "date": "2025-10-25",
     "order": 2
-  },
-  {
-    "title": "2025-10-27",
-    "description": "Illustration du 2025-10-27.",
-    "image": "images/2025-10-27.jpg",
-    "date": "2025-10-27",
-    "order": 0
   },
   {
     "title": "2025-10-27 — dessin 2",
@@ -2408,13 +2408,6 @@
     "order": 5
   },
   {
-    "title": "2025-11-24",
-    "description": "Illustration du 2025-11-24.",
-    "image": "images/2025-11-24.png",
-    "date": "2025-11-24",
-    "order": 0
-  },
-  {
     "title": "2025-11-24 — dessin 2",
     "description": "Illustration du 2025-11-24, dessin 2.",
     "image": "images/2025-11-24d2.png",
@@ -2455,6 +2448,13 @@
     "image": "images/2025-11-24d7.png",
     "date": "2025-11-24",
     "order": 7
+  },
+  {
+    "title": "2025-11-24 — dessin 8",
+    "description": "Illustration du 2025-11-24, dessin 8.",
+    "image": "images/2025-11-24d8.png",
+    "date": "2025-11-24",
+    "order": 8
   },
   {
     "title": "2025-11-25",
@@ -3682,13 +3682,6 @@
     "order": 0
   },
   {
-    "title": "2026-02-08 — dessin 2",
-    "description": "Illustration du 2026-02-08, dessin 2.",
-    "image": "images/2026-02-08d2.png",
-    "date": "2026-02-08",
-    "order": 2
-  },
-  {
     "title": "2026-02-09",
     "description": "Illustration du 2026-02-09.",
     "image": "images/2026-02-09.png",
@@ -3913,6 +3906,13 @@
     "order": 0
   },
   {
+    "title": "2026-03-02 — dessin 2",
+    "description": "Illustration du 2026-03-02, dessin 2.",
+    "image": "images/2026-03-02d2.png",
+    "date": "2026-03-02",
+    "order": 2
+  },
+  {
     "title": "2026-03-03",
     "description": "Illustration du 2026-03-03.",
     "image": "images/2026-03-03.png",
@@ -4109,18 +4109,18 @@
     "order": 0
   },
   {
-    "title": "2026-03-30",
-    "description": "Illustration du 2026-03-30.",
-    "image": "images/2026-03-30.png",
-    "date": "2026-03-30",
-    "order": 0
-  },
-  {
     "title": "2026-04-01",
     "description": "Illustration du 2026-04-01.",
     "image": "images/2026-04-01.png",
     "date": "2026-04-01",
     "order": 0
+  },
+  {
+    "title": "2026-04-01 — dessin 2",
+    "description": "Illustration du 2026-04-01, dessin 2.",
+    "image": "images/2026-04-01d2.png",
+    "date": "2026-04-01",
+    "order": 2
   },
   {
     "title": "2026-04-03",
