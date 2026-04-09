@@ -1354,7 +1354,13 @@
         }
 
         const artworks = await response.json();
-        const validArtworks = artworks.filter((item) => item.image);
+        const validArtworks = artworks.filter((item) => {
+  if (!item.image) return false;
+
+  const filename = item.image.split('/').pop();
+
+  return /^\d{4}-\d{2}-\d{2}(d\d+)?\./.test(filename);
+});
         const sortedArtworks = sortArtworksByDate(validArtworks);
 
         allArtworks = sortedArtworks;
