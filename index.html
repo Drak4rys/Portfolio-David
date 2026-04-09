@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
   <title>Portfolio Dessins — Accueil</title>
   <style>
     :root {
@@ -74,7 +75,7 @@
     .site-header {
       position: absolute;
       inset: 0 0 auto 0;
-      z-index: 10;
+      z-index: 20;
       padding-top: 22px;
     }
 
@@ -108,7 +109,6 @@
       place-items: center;
       box-shadow: 0 10px 35px rgba(0,0,0,0.35);
       backdrop-filter: blur(8px);
-      font-size: 1rem;
       flex-shrink: 0;
       overflow: hidden;
     }
@@ -147,6 +147,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
+      min-width: 0;
     }
 
     .menu a {
@@ -157,6 +158,7 @@
       font-size: 0.84rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
+      text-align: center;
       transition: 0.25s ease;
     }
 
@@ -170,6 +172,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-shrink: 0;
     }
 
     .socials a {
@@ -229,7 +232,7 @@
     .back-art {
       position: absolute;
       inset: 0;
-      background-image: url('fond.png');
+      background-image: url('images/fond.png');
       background-size: cover;
       background-position: center;
       opacity: 0.18;
@@ -709,6 +712,7 @@
     }
 
     .lightbox-figure {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -764,7 +768,8 @@
     }
 
     .lightbox-close,
-    .lightbox-nav {
+    .lightbox-nav,
+    .lightbox-fullscreen {
       position: absolute;
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.06);
@@ -776,9 +781,19 @@
     }
 
     .lightbox-close:hover,
-    .lightbox-nav:hover {
+    .lightbox-nav:hover,
+    .lightbox-fullscreen:hover {
       background: rgba(255,255,255,0.12);
       transform: translateY(-2px);
+    }
+
+    .lightbox-fullscreen {
+      top: 14px;
+      right: 70px;
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      font-size: 1rem;
     }
 
     .lightbox-close {
@@ -815,15 +830,31 @@
 
     @media (max-width: 980px) {
       .header-bar {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
         border-radius: 28px;
-        flex-direction: column;
-        align-items: stretch;
+        padding: 14px;
       }
 
-      .brand,
-      .socials,
+      .brand {
+        min-width: 0;
+      }
+
       .menu {
-        justify-content: center;
+        grid-column: 1 / -1;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .menu a {
+        padding: 11px 10px;
+      }
+
+      .socials {
+        justify-self: end;
       }
 
       .featured-art,
@@ -855,26 +886,78 @@
         width: min(calc(100% - 24px), var(--max));
       }
 
-      .hero {
-        padding-top: 176px;
+      .site-header {
+        padding-top: 14px;
       }
 
-      .site-title {
-        letter-spacing: 0.1em;
+      .header-bar {
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 24px;
       }
 
-      .site-subtitle {
-        font-size: 0.9rem;
+      .brand {
+        gap: 10px;
+      }
+
+      .logo {
+        width: 46px;
+        height: 46px;
+      }
+
+      .brand-name {
+        font-size: 0.78rem;
+        letter-spacing: 0.16em;
+        white-space: normal;
+      }
+
+      .brand-tagline {
+        font-size: 0.7rem;
         letter-spacing: 0.04em;
       }
 
+      .socials a {
+        width: 42px;
+        height: 42px;
+      }
+
       .menu {
-        gap: 8px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
       }
 
       .menu a {
-        width: 100%;
-        text-align: center;
+        width: auto;
+        min-width: 0;
+        padding: 10px 6px;
+        font-size: 0.66rem;
+        letter-spacing: 0.08em;
+      }
+
+      .hero {
+        padding-top: 210px;
+      }
+
+      .hero-kicker {
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+      }
+
+      .site-title {
+        font-size: clamp(2.5rem, 12vw, 4.4rem);
+        letter-spacing: 0.08em;
+      }
+
+      .site-subtitle {
+        font-size: 0.88rem;
+        letter-spacing: 0.03em;
+        line-height: 1.8;
+      }
+
+      .newsletter {
+        padding: 18px;
+        border-radius: 24px;
       }
 
       .year-header {
@@ -943,6 +1026,13 @@
         height: 44px;
       }
 
+      .lightbox-fullscreen {
+        top: 10px;
+        right: 60px;
+        width: 44px;
+        height: 44px;
+      }
+
       .lightbox-nav {
         width: 44px;
         height: 44px;
@@ -962,9 +1052,9 @@
     <div class="container">
       <div class="header-bar">
         <a class="brand" href="#home" aria-label="Retour à l'accueil">
-          <div class="logo"><img src="profil.png" alt="Portrait Lalande David" /></div>
+          <div class="logo"><img src="images/profil.png" alt="Portrait Lalande David" /></div>
           <div class="brand-copy">
-            <span class="brand-name">David Lalande </span>
+            <span class="brand-name">David Lalande</span>
             <span class="brand-tagline">illustrations</span>
           </div>
         </a>
@@ -990,9 +1080,9 @@
     <div class="back-art"></div>
 
     <div class="container hero-content">
-      <span class="hero-kicker">illustrations "traditionnelles et numériques"</span>
+      <span class="hero-kicker">illustrations traditionnelles et numériques</span>
       <h1 class="site-title">Ton univers<br />en images</h1>
-      <p class="site-subtitle">Voici mon Portfolio avec une galerie chronologique pour suivre mon évolution artistique.</p>
+      <p class="site-subtitle">Voici mon portfolio avec une galerie chronologique pour suivre mon évolution artistique.</p>
 
       <div class="newsletter" id="contact">
         <div class="featured-art">
@@ -1038,11 +1128,12 @@
 
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <button class="lightbox-fullscreen" id="lightboxFullscreen" aria-label="Plein écran">⛶</button>
     <button class="lightbox-close" id="lightboxClose" aria-label="Fermer">✕</button>
     <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Image précédente">←</button>
     <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Image suivante">→</button>
     <div class="lightbox-content">
-      <figure class="lightbox-figure">
+      <figure class="lightbox-figure" id="lightboxFigure">
         <img id="lightboxImage" src="" alt="" />
       </figure>
       <aside class="lightbox-panel">
@@ -1072,6 +1163,7 @@
     let currentLightboxIndex = 0;
 
     const lightbox = document.getElementById('lightbox');
+    const lightboxFigure = document.getElementById('lightboxFigure');
     const lightboxImage = document.getElementById('lightboxImage');
     const lightboxTitle = document.getElementById('lightboxTitle');
     const lightboxDescription = document.getElementById('lightboxDescription');
@@ -1079,6 +1171,7 @@
     const lightboxClose = document.getElementById('lightboxClose');
     const lightboxPrev = document.getElementById('lightboxPrev');
     const lightboxNext = document.getElementById('lightboxNext');
+    const lightboxFullscreen = document.getElementById('lightboxFullscreen');
     const lightboxBackdrop = document.getElementById('lightboxBackdrop');
 
     function formatDate(dateString) {
@@ -1340,6 +1433,18 @@
       document.body.style.overflow = '';
     }
 
+    async function toggleFullscreen() {
+      try {
+        if (!document.fullscreenElement) {
+          await lightboxFigure.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.error('Plein écran non disponible', error);
+      }
+    }
+
     function navigateLightbox(direction) {
       if (!allArtworks.length) return;
       currentLightboxIndex = (currentLightboxIndex + direction + allArtworks.length) % allArtworks.length;
@@ -1355,12 +1460,10 @@
 
         const artworks = await response.json();
         const validArtworks = artworks.filter((item) => {
-  if (!item.image) return false;
-
-  const filename = item.image.split('/').pop();
-
-  return /^\d{4}-\d{2}-\d{2}(d\d+)?\./.test(filename);
-});
+          if (!item.image) return false;
+          const filename = item.image.split('/').pop();
+          return /^\d{4}-\d{2}-\d{2}(d\d+)?\./.test(filename);
+        });
         const sortedArtworks = sortArtworksByDate(validArtworks);
 
         allArtworks = sortedArtworks;
@@ -1382,12 +1485,14 @@
     lightboxBackdrop.addEventListener('click', closeLightbox);
     lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
     lightboxNext.addEventListener('click', () => navigateLightbox(1));
+    lightboxFullscreen.addEventListener('click', toggleFullscreen);
 
     document.addEventListener('keydown', (event) => {
       if (!lightbox.classList.contains('open')) return;
       if (event.key === 'Escape') closeLightbox();
       if (event.key === 'ArrowLeft') navigateLightbox(-1);
       if (event.key === 'ArrowRight') navigateLightbox(1);
+      if (event.key.toLowerCase() === 'f') toggleFullscreen();
     });
 
     loadGallery();
