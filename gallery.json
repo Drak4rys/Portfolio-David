@@ -4163,5 +4163,12 @@
     "image": "images/2026-04-08.png",
     "date": "2026-04-08",
     "order": 0
+  },
+  {
+    "title": "2026-04-09",
+    "description": "Illustration du 2026-04-09.",
+    "image": "images/2026-04-09.png",
+    "date": "2026-04-09",
+    "order": 0
   }
 ]
