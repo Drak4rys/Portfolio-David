@@ -4205,5 +4205,12 @@
     "image": "images/2026-04-13.png",
     "date": "2026-04-13",
     "order": 0
+  },
+  {
+    "title": "2026-04-13 — dessin 2",
+    "description": "Illustration du 2026-04-13, dessin 2.",
+    "image": "images/2026-04-13d2.png",
+    "date": "2026-04-13",
+    "order": 2
   }
 ]
