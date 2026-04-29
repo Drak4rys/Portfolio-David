@@ -4345,5 +4345,19 @@
     "image": "images/2026-04-28d2.jpg",
     "date": "2026-04-28",
     "order": 2
+  },
+  {
+    "title": "2026-04-29",
+    "description": "Illustration du 2026-04-29.",
+    "image": "images/2026-04-29.jpg",
+    "date": "2026-04-29",
+    "order": 1
+  },
+  {
+    "title": "2026-04-29 — dessin 2",
+    "description": "Illustration du 2026-04-29, dessin 2.",
+    "image": "images/2026-04-29d2.jpg",
+    "date": "2026-04-29",
+    "order": 2
   }
 ]
